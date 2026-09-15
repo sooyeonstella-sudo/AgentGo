@@ -96,6 +96,29 @@
     </div>
   </header>
 
+  <!-- Side Table of Contents (large desktop only, avoids overlapping article copy on narrower screens) -->
+  <nav aria-label="목차" class="hidden xl:block fixed right-6 top-1/2 -translate-y-1/2 z-30">
+    <div class="bg-white/95 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-sm px-4 py-3 flex flex-col gap-0.5 w-36">
+      <span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase mb-1 px-0.5">목차</span>
+      <a href="#problem" data-toc-target="problem" class="toc-link flex items-center gap-2 py-1.5 px-0.5 rounded-lg text-xs font-medium text-slate-400 hover:text-blue-600 transition">
+        <span class="toc-dot w-1.5 h-1.5 rounded-full bg-slate-300 transition shrink-0"></span>
+        <span>도입 리스크</span>
+      </a>
+      <a href="#governance" data-toc-target="governance" class="toc-link flex items-center gap-2 py-1.5 px-0.5 rounded-lg text-xs font-medium text-slate-400 hover:text-blue-600 transition">
+        <span class="toc-dot w-1.5 h-1.5 rounded-full bg-slate-300 transition shrink-0"></span>
+        <span>4대 원칙</span>
+      </a>
+      <a href="#agentgo" data-toc-target="agentgo" class="toc-link flex items-center gap-2 py-1.5 px-0.5 rounded-lg text-xs font-medium text-slate-400 hover:text-blue-600 transition">
+        <span class="toc-dot w-1.5 h-1.5 rounded-full bg-slate-300 transition shrink-0"></span>
+        <span>솔루션 AgentGo</span>
+      </a>
+      <a href="#series" data-toc-target="series" class="toc-link flex items-center gap-2 py-1.5 px-0.5 rounded-lg text-xs font-medium text-slate-400 hover:text-blue-600 transition">
+        <span class="toc-dot w-1.5 h-1.5 rounded-full bg-slate-300 transition shrink-0"></span>
+        <span>기획 시리즈</span>
+      </a>
+    </div>
+  </nav>
+
   <main class="w-full">
     <!-- Article Header -->
     <section class="bg-white border-b border-slate-200 py-12 sm:py-16 px-4 sm:px-6">
@@ -796,7 +819,31 @@
       if (progressBar) {
         progressBar.style.width = scrolled + '%';
       }
+      updateActiveToc();
     });
+
+    // Side Table of Contents: highlight the section currently in view
+    const tocSectionIds = ['problem', 'governance', 'agentgo', 'series'];
+    function updateActiveToc() {
+      const scrollPos = window.scrollY + 160; // account for sticky header + reading comfort offset
+      let current = tocSectionIds[0];
+      tocSectionIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPos) current = id;
+      });
+      document.querySelectorAll('.toc-link').forEach((link) => {
+        const isActive = link.dataset.tocTarget === current;
+        link.classList.toggle('text-blue-600', isActive);
+        link.classList.toggle('font-bold', isActive);
+        link.classList.toggle('text-slate-400', !isActive);
+        const dot = link.querySelector('.toc-dot');
+        if (dot) {
+          dot.classList.toggle('bg-blue-600', isActive);
+          dot.classList.toggle('bg-slate-300', !isActive);
+        }
+      });
+    }
+    document.addEventListener('DOMContentLoaded', updateActiveToc);
 
     // Toast Notification helper
     function showToast(message) {
