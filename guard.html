@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentGo Guard - Enterprise AI Security</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://cdn.jsdelivr.net/gh/sun-typeface/suit@2/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'SUIT Variable', 'SUIT', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f1f5f9; /* 배경 라이트 톤 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-eng {
+      font-family: 'SUIT Variable', 'SUIT', 'Segoe UI', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* 700mm x 1200mm 규격 (840px x 1440px) - No Overflow */
+    .banner-canvas {
+      width: 840px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      /* Light gradient background with soft blue/purple hints */
+      background: linear-gradient(170deg, #ffffff 0%, #f8fafc 40%, #f3e8ff 80%, #e0e7ff 100%);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.1), 0 0 35px rgba(139, 92, 246, 0.1);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255,255,255,1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(139, 92, 246, 0.15); /* Soft purple border */
+    }
+
+    .ui-placeholder {
+      background-image: repeating-linear-gradient(45deg, #f1f5f9 25%, transparent 25%, transparent 75%, #f1f5f9 75%, #f1f5f9), repeating-linear-gradient(45deg, #f1f5f9 25%, #ffffff 25%, #ffffff 75%, #f1f5f9 75%, #f1f5f9);
+      background-position: 0 0, 10px 10px;
+      background-size: 20px 20px;
+    }
+  </style>
+</head>
+
+<body class="text-slate-800 py-6">
+
+  <!-- 메인 캔버스 (700mm x 1200mm) -->
+  <main class="banner-canvas flex flex-col justify-between p-10 relative">
+
+    <!-- 배경 은은한 포인트 블러 -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      <div class="absolute -top-20 -left-20 w-[450px] h-[450px] bg-blue-400/10 rounded-full blur-[100px]"></div>
+      <div class="absolute top-[35%] -right-24 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[100px]"></div>
+      <div class="absolute -bottom-16 -left-16 w-[500px] h-[500px] bg-indigo-400/10 rounded-full blur-[120px]"></div>
+
+      <!-- 하단부 웨이브 라인 (밝은 테마용) -->
+      <svg class="absolute bottom-0 left-0 w-full h-48 opacity-20" viewBox="0 0 840 180" fill="none">
+        <path d="M0 100C180 40 350 140 530 80C700 20 780 90 840 80V180H0V100Z" fill="url(#waveGrad)" />
+        <defs>
+          <linearGradient id="waveGrad" x1="0" y1="0" x2="840" y2="180" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#3b82f6"/>
+            <stop offset="0.5" stop-color="#8b5cf6"/>
+            <stop offset="1" stop-color="#c084fc"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <header class="relative z-20">
+      <!-- 상단 소속사 브랜딩 바 -->
+      <div class="flex items-center justify-between border-b border-indigo-100 pb-3 mb-6">
+        <div class="flex items-center gap-3">
+          <svg class="w-7 h-7 text-blue-600" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4L36 34H4L20 4Z" fill="currentColor"/>
+            <path d="M20 15L30 34H10L20 15Z" fill="#a855f7"/>
+          </svg>
+          <div class="flex items-baseline">
+            <span class="text-2xl font-black text-slate-900 tracking-tight font-eng">ITCEN</span>
+            <span class="text-2xl font-black text-blue-600 tracking-tight font-eng ml-2">CLOIT</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-xs font-extrabold text-purple-700">
+          <span class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_6px_rgba(168,85,247,0.6)] animate-pulse"></span>
+          Enterprise AI Guardrail Solution
+        </div>
+      </div>
+
+      <!-- 확장된 메인 히어로 타이틀 영역 -->
+      <div class="text-center py-2">
+        <!-- 쉴드 아이콘 & 영문 카테고리 -->
+        <div class="flex items-center justify-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 p-[1px] flex items-center justify-center shadow-md shadow-purple-500/20">
+            <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-4.5 h-4.5 text-purple-600"></i>
+            </div>
+          </div>
+          <p class="text-[14px] font-black text-purple-700 font-eng uppercase tracking-[0.2em]">
+            Agentic AI Platform
+          </p>
+        </div>
+
+        <!-- 메인 초대형 타이틀 -->
+        <h1 class="text-[58px] font-black tracking-tight text-slate-900 leading-none flex items-center justify-center gap-3 my-2.5">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600 font-eng tracking-tight pb-1">AgentGo Guard</span>
+          <span class="w-4 h-4 rounded-full bg-purple-500 inline-block shadow-[0_0_10px_rgba(168,85,247,0.4)]"></span>
+        </h1>
+
+        <!-- 핵심 슬로건 캡슐 배너 -->
+        <div class="inline-flex items-center gap-2.5 px-7 py-3 mt-3 rounded-full bg-white border border-indigo-100 shadow-sm">
+          <i data-lucide="lock" class="w-4.5 h-4.5 text-blue-600"></i>
+          <p class="text-[17.5px] font-black text-slate-700 tracking-tight">
+            Agentic AI Platform 기반의 독립형 AI 보안 가드레일
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <section class="relative z-20 my-2">
+      <div class="flex items-center mb-3 px-1">
+        <h2 class="text-[19px] font-black text-slate-900 flex items-center gap-2 font-eng tracking-wider uppercase">
+          <span class="w-2.5 h-5 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full inline-block"></span>
+          CORE VALUES
+        </h2>
+      </div>
+
+      <!-- 3개 블록 그리드 (PDF 'Light, Govern, Expand') -->
+      <div class="grid grid-cols-3 gap-4">
+
+        <!-- 블록 1: LIGHT -->
+        <div class="rounded-xl overflow-hidden shadow-sm border border-blue-200 bg-white flex flex-col justify-between h-[110px] group hover:-translate-y-1 transition-transform">
+          <div class="px-3 py-2.5 border-b border-blue-50 bg-blue-50/50 flex flex-col items-center">
+            <h3 class="text-[18px] font-black tracking-tight font-eng text-blue-700">LIGHT</h3>
+            <p class="text-[12.5px] font-bold text-slate-700 mt-0.5">가볍고 신속한 독립형 도입</p>
+          </div>
+          <div class="px-4 py-2 text-center flex-1 flex items-center justify-center">
+            <p class="text-[12px] leading-snug text-slate-600 font-medium">
+              기존 RAG, 챗봇 환경을 100% 보존하며 필요한 보안 기능만 가볍게 플러그인 연동
+            </p>
+          </div>
+        </div>
+
+        <!-- 블록 2: GOVERN -->
+        <div class="rounded-xl overflow-hidden shadow-sm border border-indigo-200 bg-white flex flex-col justify-between h-[110px] group hover:-translate-y-1 transition-transform">
+          <div class="px-3 py-2.5 border-b border-indigo-50 bg-indigo-50/50 flex flex-col items-center">
+            <h3 class="text-[18px] font-black tracking-tight font-eng text-indigo-700">GOVERN</h3>
+            <p class="text-[12.5px] font-bold text-slate-700 mt-0.5">서비스별 맞춤 중앙 거버넌스</p>
+          </div>
+          <div class="px-4 py-2 text-center flex-1 flex items-center justify-center">
+            <p class="text-[12px] leading-snug text-slate-600 font-medium">
+              사내 다수 AI 서비스를 단일 중앙 보안 정책 단위로 정밀하게 통제 및 관리
+            </p>
+          </div>
+        </div>
+
+        <!-- 블록 3: EXPAND -->
+        <div class="rounded-xl overflow-hidden shadow-sm border border-purple-200 bg-white flex flex-col justify-between h-[110px] group hover:-translate-y-1 transition-transform">
+          <div class="px-3 py-2.5 border-b border-purple-50 bg-purple-50/50 flex flex-col items-center">
+            <h3 class="text-[18px] font-black tracking-tight font-eng text-purple-700">EXPAND</h3>
+            <p class="text-[12.5px] font-bold text-slate-700 mt-0.5">미래를 대비하는 자산 투자</p>
+          </div>
+          <div class="px-4 py-2 text-center flex-1 flex items-center justify-center">
+            <p class="text-[12px] leading-snug text-slate-600 font-medium">
+              Guard 도입 투자가 향후 다중 에이전트(Agentic AI 플랫폼) 전환 시 완벽하게 직결
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="relative z-20 my-2">
+      <div class="flex items-center mb-3 px-1">
+        <h2 class="text-[19px] font-black text-slate-900 flex items-center gap-2 tracking-tight">
+          <span class="w-2.5 h-5 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full inline-block"></span>
+          주요 기능 및 운영 관리
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4">
+
+        <!-- 주요 기능 1: 금칙어 관리 -->
+        <div class="glass-card rounded-xl p-3 flex flex-col h-[280px]">
+          <!-- UI 이미지 플레이스홀더 -->
+          <div class="w-full h-[140px] rounded-lg mb-3 border border-slate-200 bg-slate-50 flex flex-col overflow-hidden shadow-inner">
+            <div class="bg-slate-100 h-6 border-b border-slate-200 flex items-center px-2 gap-1.5">
+              <div class="w-2 h-2 rounded-full bg-red-400"></div><div class="w-2 h-2 rounded-full bg-amber-400"></div><div class="w-2 h-2 rounded-full bg-green-400"></div>
+              <span class="text-[9px] text-slate-500 font-bold ml-1">금칙어 그룹 등록</span>
+            </div>
+            <!-- Mock Content -->
+            <div class="flex-1 ui-placeholder p-2 flex flex-col justify-center items-center">
+              <div class="bg-white px-3 py-1.5 rounded shadow-sm border border-slate-200 flex items-center gap-2 w-[80%] mb-2">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-rose-500"></i>
+                <div class="h-2 bg-slate-200 rounded w-16"></div>
+              </div>
+              <div class="bg-white px-3 py-1.5 rounded shadow-sm border border-rose-200 flex items-center justify-between w-[80%]">
+                <div class="h-2 bg-rose-100 rounded w-20"></div>
+                <div class="h-4 w-4 bg-rose-500 rounded-full flex items-center justify-center"><i data-lucide="x" class="w-2.5 h-2.5 text-white"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-1 flex flex-col">
+            <h3 class="text-[15.5px] font-black text-blue-700 mb-1 flex items-center gap-1.5">
+              <i data-lucide="text-cursor-input" class="w-4 h-4"></i> Guardrail 금칙어 관리
+            </h3>
+            <p class="text-[12px] text-slate-600 leading-snug mb-2 font-medium">
+              사전에 등록된 위험 단어를 탐지하고 차단하여 안전한 AI 사용 환경을 제공합니다.
+            </p>
+            <div class="mt-auto flex flex-wrap gap-1.5 text-[10.5px] font-bold text-blue-800">
+              <span class="bg-blue-100/80 px-2 py-0.5 rounded border border-blue-200">위험입력 탐지</span>
+              <span class="bg-blue-100/80 px-2 py-0.5 rounded border border-blue-200">주제 필터링</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 주요 기능 2: API 그룹 설정 -->
+        <div class="glass-card rounded-xl p-3 flex flex-col h-[280px]">
+          <!-- UI 이미지 플레이스홀더 -->
+          <div class="w-full h-[140px] rounded-lg mb-3 border border-slate-200 bg-slate-50 flex flex-col overflow-hidden shadow-inner">
+            <div class="bg-slate-100 h-6 border-b border-slate-200 flex items-center px-2 gap-1.5">
+              <div class="w-2 h-2 rounded-full bg-red-400"></div><div class="w-2 h-2 rounded-full bg-amber-400"></div><div class="w-2 h-2 rounded-full bg-green-400"></div>
+              <span class="text-[9px] text-slate-500 font-bold ml-1">API 그룹 설정</span>
+            </div>
+            <!-- Mock Content -->
+            <div class="flex-1 ui-placeholder p-2 flex flex-col justify-center items-center gap-2">
+              <div class="w-[90%] bg-white rounded border border-indigo-100 p-1.5 flex justify-between items-center shadow-sm">
+                <div class="flex items-center gap-1"><i data-lucide="network" class="w-3 h-3 text-indigo-500"></i><div class="h-1.5 bg-slate-200 rounded w-12"></div></div>
+                <div class="h-3 w-6 bg-indigo-500 rounded-full"></div>
+              </div>
+              <div class="w-[90%] bg-white rounded border border-indigo-100 p-1.5 flex justify-between items-center shadow-sm">
+                <div class="flex items-center gap-1"><i data-lucide="layers" class="w-3 h-3 text-indigo-500"></i><div class="h-1.5 bg-slate-200 rounded w-16"></div></div>
+                <div class="h-3 w-6 bg-slate-300 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-1 flex flex-col">
+            <h3 class="text-[15.5px] font-black text-indigo-700 mb-1 flex items-center gap-1.5">
+              <i data-lucide="server-cog" class="w-4 h-4"></i> API 그룹 설정 및 등록
+            </h3>
+            <p class="text-[12px] text-slate-600 leading-snug mb-2 font-medium">
+              서비스별 가드레일 정책을 API 그룹으로 구성하여 실시간 검증·차단·마스킹합니다.
+            </p>
+            <div class="mt-auto flex flex-wrap gap-1.5 text-[10.5px] font-bold text-indigo-800">
+              <span class="bg-indigo-100/80 px-2 py-0.5 rounded border border-indigo-200">입출력 통제</span>
+              <span class="bg-indigo-100/80 px-2 py-0.5 rounded border border-indigo-200">정책 기반 거버넌스</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 주요 기능 3: 시뮬레이터 -->
+        <div class="glass-card rounded-xl p-3 flex flex-col h-[280px]">
+          <!-- UI 이미지 플레이스홀더 -->
+          <div class="w-full h-[140px] rounded-lg mb-3 border border-slate-200 bg-slate-50 flex flex-col overflow-hidden shadow-inner">
+            <div class="bg-slate-100 h-6 border-b border-slate-200 flex items-center px-2 gap-1.5">
+              <div class="w-2 h-2 rounded-full bg-red-400"></div><div class="w-2 h-2 rounded-full bg-amber-400"></div><div class="w-2 h-2 rounded-full bg-green-400"></div>
+              <span class="text-[9px] text-slate-500 font-bold ml-1">Guardrail 시뮬레이터</span>
+            </div>
+            <!-- Mock Content -->
+            <div class="flex-1 ui-placeholder p-2 flex flex-col gap-1.5 justify-center">
+              <div class="w-full bg-white rounded border border-purple-100 p-1.5 shadow-sm">
+                <div class="h-1.5 bg-slate-200 rounded w-1/2 mb-1.5"></div>
+                <div class="h-5 bg-purple-50 rounded border border-purple-200 w-full flex items-center justify-center text-[8px] text-purple-600 font-bold">시뮬레이션 실행</div>
+              </div>
+              <div class="w-full bg-white rounded border border-purple-100 p-1.5 flex gap-2 items-center shadow-sm">
+                <i data-lucide="shield-check" class="w-4 h-4 text-green-500"></i>
+                <div class="flex-1"><div class="h-1.5 bg-slate-200 rounded w-3/4"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-1 flex flex-col">
+            <h3 class="text-[15.5px] font-black text-purple-700 mb-1 flex items-center gap-1.5">
+              <i data-lucide="flask-conical" class="w-4 h-4"></i> Guardrail 시뮬레이터
+            </h3>
+            <p class="text-[12px] text-slate-600 leading-snug mb-2 font-medium">
+              운영 전 가상의 공격·예외 상황을 시뮬레이션하여 방어 성능과 오탐·미탐을 사전 검증합니다.
+            </p>
+            <div class="mt-auto flex flex-wrap gap-1.5 text-[10.5px] font-bold text-purple-800">
+              <span class="bg-purple-100/80 px-2 py-0.5 rounded border border-purple-200">운영 전 사전검증</span>
+              <span class="bg-purple-100/80 px-2 py-0.5 rounded border border-purple-200">정책 최적화</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="relative z-20 my-2">
+      <div class="flex items-center mb-3 px-1">
+        <h2 class="text-[19px] font-black text-slate-900 flex items-center gap-2 font-eng tracking-wider uppercase">
+          <span class="w-2.5 h-5 bg-purple-500 rounded-full inline-block shadow-sm"></span>
+          AGENTGO GUARD USE CASE
+        </h2>
+      </div>
+
+      <!-- Use Case 6개 리스트 -->
+      <div class="grid grid-cols-3 gap-3">
+
+        <!-- 01 -->
+        <div class="flex flex-col gap-2 p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md transition">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+              <i data-lucide="briefcase" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[14.5px] font-black text-slate-900 leading-tight">업무지원 / 지식검색</span>
+          </div>
+          <ul class="text-[11.5px] text-slate-600 font-medium pl-1 flex flex-col gap-1 list-disc list-inside marker:text-blue-400">
+            <li>사내 지식검색 Guard 적용</li>
+            <li>프롬프트 인젝션 방어</li>
+            <li>민감정보 마스킹 및 로그관리</li>
+          </ul>
+        </div>
+
+        <!-- 02 -->
+        <div class="flex flex-col gap-2 p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-indigo-400 hover:shadow-md transition">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+              <i data-lucide="scale" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[14.5px] font-black text-slate-900 leading-tight">내부통제 / 준법</span>
+          </div>
+          <ul class="text-[11.5px] text-slate-600 font-medium pl-1 flex flex-col gap-1 list-disc list-inside marker:text-indigo-400">
+            <li>정책·규정 위반 실시간 탐지</li>
+            <li>금융소비자보호 점검 지원</li>
+            <li>철저한 감사 로그 및 이력 추적</li>
+          </ul>
+        </div>
+
+        <!-- 03 -->
+        <div class="flex flex-col gap-2 p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-purple-400 hover:shadow-md transition">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+              <i data-lucide="building-2" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[14.5px] font-black text-slate-900 leading-tight">경영지원</span>
+          </div>
+          <ul class="text-[11.5px] text-slate-600 font-medium pl-1 flex flex-col gap-1 list-disc list-inside marker:text-purple-400">
+            <li>재무·인사 등 기밀 문서 보호</li>
+            <li>이상 사용행위 상시 모니터링</li>
+            <li>전사 보안 정책 중앙관리</li>
+          </ul>
+        </div>
+
+        <!-- 04 -->
+        <div class="flex flex-col gap-2 p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-fuchsia-400 hover:shadow-md transition">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center shrink-0">
+              <i data-lucide="headset" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[14.5px] font-black text-slate-900 leading-tight">CS / 고객지원</span>
+          </div>
+          <ul class="text-[11.5px] text-slate-600 font-medium pl-1 flex flex-col gap-1 list-disc list-inside marker:text-fuchsia-400">
+            <li>상담 챗봇 PII(개인정보) 보호</li>
+            <li>민원·VOC 유해질의 원천 차단</li>
+            <li>외부 LLM 연계 응답 보안 통제</li>
+          </ul>
+        </div>
+
+        <!-- 05 -->
+        <div class="flex flex-col gap-2 p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-sky-400 hover:shadow-md transition">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center shrink-0">
+              <i data-lucide="shield-alert" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[14.5px] font-black text-slate-900 leading-tight">IT운영 / 보안</span>
+          </div>
+          <ul class="text-[11.5px] text-slate-600 font-medium pl-1 flex flex-col gap-1 list-disc list-inside marker:text-sky-400">
+            <li>지능형 Prompt Attack 탐지</li>
+            <li>내부 Q&A 응답 보안 및 통제</li>
+            <li>보안 규정·지식검색 Guard 적용</li>
+          </ul>
+        </div>
+
+        <!-- 06 -->
+        <div class="flex flex-col gap-2 p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-rose-400 hover:shadow-md transition">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+              <i data-lucide="megaphone" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[14.5px] font-black text-slate-900 leading-tight">영업 / 마케팅</span>
+          </div>
+          <ul class="text-[11.5px] text-slate-600 font-medium pl-1 flex flex-col gap-1 list-disc list-inside marker:text-rose-400">
+            <li>고객정보 포함 응답 유출 통제</li>
+            <li>마케팅 캠페인 문안 안전성 검토</li>
+            <li>상품추천 응답 리스크 사전 점검</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="relative z-20 pt-5 pb-2 border-t border-indigo-100 mt-auto">
+      <div class="flex items-center justify-between px-3">
+        <!-- 좌측: 브랜드 및 제품 문의 텍스트 -->
+        <div class="flex flex-col justify-center">
+          <div class="flex items-center gap-2.5 mb-1.5">
+            <div class="flex items-baseline">
+              <span class="text-[20px] font-black text-slate-900 font-eng">ITCEN</span>
+              <span class="text-[20px] font-black text-blue-600 font-eng ml-1.5">CLOIT</span>
+            </div>
+            <span class="text-slate-300 text-base">|</span>
+            <span class="text-[17px] font-black text-slate-800">제품 문의</span>
+          </div>
+
+          <div class="flex items-center gap-3.5 mt-0.5">
+            <a href="mailto:agentgo@itcen.com" class="inline-flex items-center gap-2 text-purple-700 hover:text-purple-800 font-black text-[18px] font-eng tracking-tight group">
+              <div class="w-7 h-7 rounded-full bg-purple-100 border border-purple-200 flex items-center justify-center text-purple-700 group-hover:bg-purple-200 transition">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+              </div>
+              <span>agentgo@itcen.com</span>
+            </a>
+            <span class="text-[13.5px] font-bold text-slate-500 border-l border-slate-300 pl-3.5">
+              기업 맞춤형 PoC 및 컨설팅 지원
+            </span>
+          </div>
+        </div>
+
+        <!-- 우측: 미니멀 QR 코드 영역 -->
+        <div class="flex items-center gap-4 pl-6 border-l border-indigo-100">
+          <div class="text-right">
+            <span class="text-[11.5px] font-black text-purple-600 font-eng tracking-wider uppercase block">SCAN ME</span>
+            <span class="text-[14px] font-black text-slate-800 block">제품 문의 바로가기</span>
+          </div>
+          <div class="bg-white p-1 rounded-lg border border-slate-200 shadow-sm">
+            <img
+              src="exported_qrcode_image_600 (8).png"
+              alt="AgentGo Guard 문의하기 QR코드"
+              class="w-14 h-14 object-contain"
+              onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=mailto:agentgo@itcen.com';"
+            />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
